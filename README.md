@@ -1,2 +1,7 @@
 # RxJS-Learning
-学习RxJS在前端项目中的应用
+学习RxJS在前端项目中的应用 个人学习笔记 比较浅显 如果哪里有错误 请提醒我
+
+
+Todo:   
+  - [ ] 学习RxJS中ReplaySubject的继承 
+  - [ ] PromiseConstructorLike是什么自定义类型
