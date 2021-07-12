@@ -3,5 +3,4 @@
 
 
 Todo:   
-  - [ ] 学习RxJS中ReplaySubject的继承 
   - [ ] PromiseConstructorLike是什么自定义类型

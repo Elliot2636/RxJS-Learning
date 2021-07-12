@@ -1,10 +1,10 @@
 #容器分析(源码太长放在下面)
 ## 容器接口
-`StoreSnapshot`
+`StoreSnapshot` Store快照 快照Action
 
 ## 源码
 > 路径 libs/akita/src/lib/store.ts
-``` javascript
+``` typescript
 import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { currentAction, resetCustomAction, setAction, StoreSnapshotAction } from './actions';
@@ -53,13 +53,13 @@ interface StoreSnapshot<S> {
  * }
  */
 export class Store<S = any> {
-  private store: BehaviorSubject<Readonly<StoreSnapshot<S>>>;
-  private storeValue: S;
-  private inTransaction = false;
-  private _initialState: S;
-  protected cache: StoreCache = {
-    active: new BehaviorSubject<boolean>(false),
-    ttl: null,
+  private store: BehaviorSubject<Readonly<StoreSnapshot<S>>>; // 模仿的Redux 是否应该设计action是一个问题 这种限制 BehaviorSubject 中数据元素类型的写法很重要要记住
+  private storeValue: S; 
+  private inTransaction = false; // 是否在交易中
+  private _initialState: S; // 初始化值
+  protected cache: StoreCache = { //派生类中任然可以访问
+    active: new BehaviorSubject<boolean>(false), // 缓存是否激活
+    ttl: null, // 缓存存留时间的缩写 Time-To-Live
   };
 
   constructor(initialState: Partial<S>, protected options: Partial<StoreConfigOptions> = {}) {
@@ -68,11 +68,8 @@ export class Store<S = any> {
 
   /**
    *  Set the loading state
-   *
    *  @example
-   *
    *  store.setLoading(true)
-   *
    */
   setLoading(loading = false) {
     if (loading !== (this._value() as S & { loading: boolean }).loading) {
@@ -82,15 +79,11 @@ export class Store<S = any> {
   }
 
   /**
-   *
    * Set whether the data is cached
-   *
    * @example
-   *
    * store.setHasCache(true)
    * store.setHasCache(false)
    * store.setHasCache(true, { restartTTL: true })
-   *
    */
   setHasCache(hasCache: boolean, options: { restartTTL: boolean } = { restartTTL: false }) {
     if (hasCache !== this.cache.active.value) {
@@ -308,6 +301,7 @@ export class Store<S = any> {
     }
   }
 
+  // 容器初始化
   private onInit(initialState: S) {
     __stores__[this.storeName] = this;
     this._setState(() => initialState);
