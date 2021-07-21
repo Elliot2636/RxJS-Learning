@@ -102,11 +102,8 @@ export class Store<S = any> {
   }
 
   /**
-   *
    * Sometimes we need to access the store value from a store
-   *
    * @example middleware
-   *
    */
   getValue() {
     return this.storeValue;
@@ -114,11 +111,8 @@ export class Store<S = any> {
 
   /**
    *  Set the error state
-   *
    *  @example
-   *
    *  store.setError({text: 'unable to load data' })
-   *
    */
   setError<T>(error: T) {
     if (error !== (this._value() as S & { error: any }).error) {
@@ -150,7 +144,8 @@ export class Store<S = any> {
     return this.constructor[configKey] || {};
   }
 
-  // @internal
+  // 获取storeName class中调用this.storeName时或者new出的Store对象获取storeName属性时会调用这个
+  // @internal 
   get storeName() {
     return (this.config as StoreConfigOptions & { storeName: string }).storeName || (this.options as StoreConfigOptions & { storeName: string }).storeName || this.options.name;
   }

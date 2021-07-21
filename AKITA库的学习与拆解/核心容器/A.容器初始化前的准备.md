@@ -34,5 +34,4 @@ if (isBrowser) {
   (window as any).$$stores = __stores__;
   (window as any).$$queries = __queries__;
 }
-
 ```
